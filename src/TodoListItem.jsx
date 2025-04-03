@@ -1,5 +1,2 @@
-const TodoListItem = ({ id, title }) => {
-  return <li>{title}</li>;
-};
-
+const TodoListItem = ({ item }) => <li>{item}</li>;
 export default TodoListItem;
