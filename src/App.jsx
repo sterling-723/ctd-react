@@ -11,13 +11,18 @@ const todos = [
 ];
 
 function App() {
-  const [newTodo, setNewTodo] = useState('Lets get started!');
+  const [todoList, setTodoList] = useState([]);
+
+  const handleAddTodo = (newTodo) => {
+    setTodoList([...todoList, newTodo]);
+  };
+
   return (
     <>
       <h1>My Todos</h1>
-      <TodoForm />
-      <p>{newTodo}</p>
-      <TodoList items={todos} />
+      <TodoForm onAddTodo={handleAddTodo} />
+      {/* <p>{newTodo}</p> */}
+      <TodoList items={todoList} />
     </>
   );
 }
