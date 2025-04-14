@@ -1,11 +1,14 @@
 import TodoListItem from './TodoListItem';
 
-const TodoList = ({ items }) => (
-  <ul>
-    {items.map(
-      (item) => item.title && <TodoListItem key={item.id} item={item.title} />
-    )}
-  </ul>
-);
+function TodoList({ items }) {
+  console.log(items);
+  return (
+    <ul>
+      {items.map((item) => (
+        <TodoListItem key={Date.now()} item={item} />
+      ))}
+    </ul>
+  );
+}
 
 export default TodoList;

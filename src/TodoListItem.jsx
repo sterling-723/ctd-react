@@ -1,2 +1,4 @@
-const TodoListItem = ({ item }) => <li>{item}</li>;
+function TodoListItem({ item }) {
+  return <li>{item}</li>;
+}
 export default TodoListItem;
