@@ -7,6 +7,7 @@ function TodoForm({ onAddTodo }) {
     e.preventDefault();
     const title = e.target.title.value;
     todoTitleInput.current.focus();
+    e.target.title.value = '';
     onAddTodo(title);
   };
   return (
