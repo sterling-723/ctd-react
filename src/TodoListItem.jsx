@@ -3,18 +3,21 @@ import { useState } from 'react';
 function TodoListItem({ item, onCompleteTodo }) {
   const [isCompleted, setIsCompleted] = useState(false);
 
-  const handleCheckboxCheck = () => {
-    setIsCompleted((prev) => !prev);
+  const handleCheckboxCheck = (itemId) => {
+    onCompleteTodo(itemId);
   };
   return (
-    <li style={{ display: isCompleted ? 'none' : 'block' }}>
-      <input
-        type="checkbox"
-        checked={isCompleted}
-        onClick={handleCheckboxCheck}
-      />
+    <li style={{ display: item.isCompleted ? 'none' : 'block' }}>
+      <form action="" style={{ border: '1px solid green' }}>
+        <input
+          type="checkbox"
+          checked={item.isCompleted}
+          id={item.id}
+          onChange={() => handleCheckboxCheck(item.id)}
+        />
 
-      <span>{item}</span>
+        <span>{item.title}</span>
+      </form>
     </li>
   );
 }

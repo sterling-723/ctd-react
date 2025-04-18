@@ -11,7 +11,7 @@ function TodoForm({ onAddTodo }) {
     onAddTodo(title);
   };
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} style={{ border: '1px solid red' }}>
       <label htmlFor="todoTitle">Todo: </label>
       <input id="todoTitle" type="text" name="title" ref={todoTitleInput} />
       <button>Add Todo</button>
