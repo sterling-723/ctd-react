@@ -8,7 +8,7 @@ function TodoListItem({ item, onCompleteTodo }) {
   };
   return (
     <li style={{ display: item.isCompleted ? 'none' : 'block' }}>
-      <form action="" style={{ border: '1px solid green' }}>
+      <form action="">
         <input
           type="checkbox"
           checked={item.isCompleted}
