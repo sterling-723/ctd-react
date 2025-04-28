@@ -7,8 +7,6 @@ function TodoForm({ onAddTodo }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // const title = e.target.title.value;
-    // e.target.title.value = '';
     todoTitleInput.current.focus();
     onAddTodo(workingTodo);
     setWorkingTodo('');
