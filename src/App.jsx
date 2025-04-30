@@ -66,7 +66,6 @@ function App() {
     const updatedTodos = todoList.map((todo) => {
       return editedTodo.id === todo.id ? { ...editedTodo } : todo;
     });
-    // console.log(updatedTodos);
     setTodoList(updatedTodos);
   };
 
@@ -78,7 +77,15 @@ function App() {
         items={todoList}
         onCompleteTodo={completeTodo}
         onUpdateTodo={updateTodo}
+        isLoading={isLoading}
       />
+      {errorMessage && (
+        <>
+          <hr />
+          <p>{errorMessage}</p>
+          <button onClick={setErrorMessage(null)}>Dismiss</button>
+        </>
+      )}
     </>
   );
 }
