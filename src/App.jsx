@@ -7,6 +7,7 @@ function App() {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
   const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
@@ -21,11 +22,13 @@ function App() {
 
       try {
         const resp = await fetch(url, options);
+        console.log(resp);
         if (!resp.ok) {
           throw new Error(`Failed to fetch: ${resp.message}`);
         }
-        const records = await resp.json();
-        records.map((record) => {
+        const { records } = await resp.json();
+
+        const mappedRecords = records.map((record) => {
           const todo = {
             id: record.id,
             title: record.fields.title,
@@ -33,6 +36,8 @@ function App() {
           };
           return todo;
         });
+
+        setTodoList(mappedRecords);
       } catch (error) {
         setErrorMessage(error.message);
       } finally {
@@ -43,13 +48,50 @@ function App() {
     fetchTodos();
   }, []);
 
-  const handleAddTodo = (title) => {
+  const handleAddTodo = async (title) => {
     const newTodo = {
       title: title,
       id: Date.now(),
       isCompleted: false,
     };
-    setTodoList([...todoList, newTodo]);
+
+    const payload = {
+      records: [
+        {
+          fields: {
+            title: newTodo.title,
+            isCompleted: newTodo.isCompleted,
+          },
+        },
+      ],
+    };
+    const options = {
+      method: 'POST',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    };
+
+    try {
+      setIsSaving(true);
+      const resp = await fetch(url, options);
+      if (!resp.ok) {
+        throw new Error(`Failed to save: ${resp.statusText}`);
+      }
+      const { records } = await resp.json();
+      const savedTodo = {
+        id: records[0].id,
+        ...records[0].fields,
+      };
+      if (!records[0].fields.isCompleted) {
+        savedTodo.isCompleted = false;
+      }
+      setTodoList([...todoList, savedTodo]);
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
   };
 
   const completeTodo = (id) => {
