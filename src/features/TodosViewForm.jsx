@@ -5,20 +5,24 @@ export default function TodosViewForm({
   setSortDirection,
   sortField,
   setSortField,
+  queryString,
   setQueryString,
 }) {
   return (
     <>
       <div>
-        <label htmlFor="">Search Todos</label>
+        <label htmlFor="todoSearchBox">Search Todos</label>
         <input
+          id="todoSearchBox"
           type="text"
-          //   value={valueString}
+          value={queryString}
           onChange={(e) => {
-            setQueryString(e.tartget.value);
+            setQueryString(e.target.value);
           }}
         />
-        <button onClick={() => setQueryString()}>Clear</button>
+        <button type="button" onClick={() => setQueryString('')}>
+          Clear
+        </button>
       </div>
       <form onSubmit={preventRefresh}>
         <label htmlFor="selectPicker">Sort by</label>
@@ -30,6 +34,14 @@ export default function TodosViewForm({
           <option value="title">Title</option>
           <option value="createdTime">Time added</option>
         </select>
+        <button
+          type="button"
+          onClick={() =>
+            setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
+          }
+        >
+          {sortDirection === 'asc' ? 'Ascending' : 'Descending'}
+        </button>
       </form>
     </>
   );
